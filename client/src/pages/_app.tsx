@@ -1,4 +1,6 @@
+import SetMyDetails from "@components/SetMyDetails";
 import SocketContext from "contexts/SocketContext";
+import { Provider } from "next-auth/client";
 import type { AppProps } from "next/app";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
@@ -22,9 +24,12 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <SocketContext.Provider value={{ socket, isConnected }}>
-      <Component {...pageProps} />;
-    </SocketContext.Provider>
+    <Provider session={pageProps.session}>
+      <SocketContext.Provider value={{ socket, isConnected }}>
+        <SetMyDetails />
+        <Component {...pageProps} />;
+      </SocketContext.Provider>
+    </Provider>
   );
 }
 

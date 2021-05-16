@@ -1,3 +1,4 @@
+import SessionDetails from "@components/SessionDetails";
 import SocketContext from "contexts/SocketContext";
 import Head from "next/head";
 import { useContext, useEffect, useState } from "react";
@@ -8,15 +9,9 @@ export const Home = (): JSX.Element => {
   const [currentPlans, setCurrentPlans] = useState<
     { _id: string; type: string; __v: string }[]
   >([]);
-  const [username, setUsername] = useState("");
 
   useEffect(() => {
     socket.emit("getCurrentPlans", setCurrentPlans);
-    socket.emit(
-      "setUsername",
-      `Peter${Math.floor(Math.random() * 1000)}`,
-      setUsername
-    );
     socket.on("randomUpdate", setCurrentRandom);
     socket.on("newPlan", (plan) =>
       setCurrentPlans((prev) => {
@@ -41,16 +36,16 @@ export const Home = (): JSX.Element => {
       <div className="w-screen h-screen bg-blue-50 flex flex-col">
         <div className="m-4">
           <div className="max-w-lg bg-blue-200 p-4 rounded z-10">
-            <p>
-              Hello, you are {isConnected ? "connected" : "not connected"}{" "}
-              {username ?? ""}
-            </p>
+            <p>Hello, you are {isConnected ? "connected" : "not connected"}</p>
             <p>Current random number is: {currentRandom}</p>
-            <button className="flex mt-4" onClick={() => socket.emit("ping")}>
+            <button
+              className="flex mt-4 w-max text-left bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded"
+              onClick={() => socket.emit("ping")}
+            >
               Emit
             </button>
             <button
-              className="flex"
+              className="mt-4 mb-4 flex w-max text-left bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded"
               onClick={() =>
                 socket.emit("filePlan", {
                   type: `B${Math.floor(Math.random() * 1000)}`,
@@ -59,15 +54,10 @@ export const Home = (): JSX.Element => {
             >
               File plan
             </button>
-            <button
-              className=" mb-4"
-              onClick={() => socket.emit("getUsername", console.log)}
-            >
-              Get Username
-            </button>
             <p>Current plans are: {JSON.stringify(currentPlans)}</p>
           </div>
         </div>
+        <SessionDetails />
       </div>
     </div>
   );

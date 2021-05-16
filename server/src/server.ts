@@ -4,6 +4,7 @@ import logger from "./winston";
 import { config } from "dotenv";
 import connectDB from "./db";
 import Plan from "./models/Plan";
+import { CustomSocket } from "./types/socket";
 
 if (process.env["NODE_ENV"] !== "production") {
   config();
@@ -23,15 +24,12 @@ io.on("connect", async (socket) => {
     cb(plans);
   });
 
-  socket.on("setUsername", (name, cb) => {
-    // @ts-ignore
-    socket.username = name;
-    cb(name);
-  });
+  socket.on("setMyDetails", (user) => {
+    logger.info(
+      `Socket ${yellow(socket.id)} identified as ${yellow(user?.name)}`
+    );
 
-  socket.on("getUsername", (cb) => {
-    //@ts-ignore
-    cb(socket.username);
+    (socket as CustomSocket).user = user;
   });
 
   socket.on("ping", () => {
@@ -40,7 +38,11 @@ io.on("connect", async (socket) => {
 
   socket.on("filePlan", async ({ type }: { type: string }) => {
     const doc = await Plan.create({ type });
-    logger.info(`${yellow(socket.id)} filed plan ${yellow(doc._id)}`);
+    logger.info(
+      `${yellow((socket as CustomSocket).user.name)} (${yellow(
+        socket.id
+      )}) filed plan ${yellow(doc._id)}`
+    );
     io.emit("newPlan", doc);
   });
 
