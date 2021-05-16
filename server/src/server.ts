@@ -23,6 +23,17 @@ io.on("connect", async (socket) => {
     cb(plans);
   });
 
+  socket.on("setUsername", (name, cb) => {
+    // @ts-ignore
+    socket.username = name;
+    cb(name);
+  });
+
+  socket.on("getUsername", (cb) => {
+    //@ts-ignore
+    cb(socket.username);
+  });
+
   socket.on("ping", () => {
     logger.info(`ping from ${yellow(socket.id)}`);
   });
