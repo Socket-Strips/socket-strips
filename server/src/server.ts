@@ -3,7 +3,7 @@ import { Server } from "socket.io";
 import logger from "./winston";
 import { config } from "dotenv";
 import connectDB from "./db";
-import Plan from "./models/plan";
+import Plan from "./models/Plan";
 
 if (process.env["NODE_ENV"] !== "production") {
   config();
@@ -18,8 +18,10 @@ const io = new Server(3001, { cors: { origin: process.env["CORS_ORIGIN"] } });
 io.on("connect", async (socket) => {
   logger.info(`${yellow(socket.id)} connected`);
 
-  const plans = await Plan.find();
-  socket.emit("currentPlans", plans);
+  socket.on("getCurrentPlans", async (cb) => {
+    const plans = await Plan.find();
+    cb(plans);
+  });
 
   socket.on("ping", () => {
     logger.info(`ping from ${yellow(socket.id)}`);

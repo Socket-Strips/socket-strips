@@ -8,7 +8,7 @@ module.exports = {
   overrides: [
     // This configuration will apply only to TypeScript files
     {
-      files: ["client/**/*.ts", "client/**/*.tsx"],
+      files: ["./client/**/*.ts", "./client/**/*.tsx"],
       settings: { react: { version: "detect" } },
       env: {
         browser: true,
@@ -22,7 +22,6 @@ module.exports = {
         "plugin:react/recommended", // React rules
         "plugin:react-hooks/recommended", // React hooks rules
         "plugin:jsx-a11y/recommended", // Accessibility rules
-        "prettier/@typescript-eslint", // Prettier plugin
         "plugin:prettier/recommended", // Prettier recommended rules
       ],
       rules: {
@@ -35,7 +34,7 @@ module.exports = {
       },
     },
     {
-      files: ["server/**/*.ts", "server/**/*.tsx"],
+      files: ["./server/**/*.ts", "./server/**/*.tsx"],
       parserOptions: {
         ecmaVersion: 2020, // Allows for the parsing of modern ECMAScript features
         sourceType: "module", // Allows for the use of imports

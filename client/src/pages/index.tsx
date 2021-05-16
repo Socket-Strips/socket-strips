@@ -10,8 +10,8 @@ export const Home = (): JSX.Element => {
   >([]);
 
   useEffect(() => {
+    socket.emit("getCurrentPlans", setCurrentPlans);
     socket.on("randomUpdate", setCurrentRandom);
-    socket.on("currentPlans", setCurrentPlans);
     socket.on("newPlan", (plan) =>
       setCurrentPlans((prev) => {
         return [...prev, plan];
