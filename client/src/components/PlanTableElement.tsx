@@ -1,100 +1,17 @@
 import { useContext } from "react";
 
-import * as Yup from "yup";
-
 import PlanTableSubElement from "./PlanTableSubElement";
 
 import { Plan } from "types/db";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SocketContext from "contexts/SocketContext";
 import { Form, Formik } from "formik";
+import planSchema from "@lib/schemas/planSchema";
 
 interface Props {
   first: boolean;
   plan: Plan;
 }
-
-const minMsg = ({ min }: { min: number }) =>
-  `Must be at least ${min} characters`;
-
-const maxMsg = ({ max }: { max: number }) =>
-  `Cannot be longer than ${max} characters`;
-
-export const valSchema = Yup.object({
-  callsign: Yup.string()
-    .min(4, minMsg)
-    .max(6, maxMsg)
-    .required("Callsign is required")
-    .matches(/^[a-zA-Z0-9]+$/, "Cannot contain special characters or spaces"),
-  aircraft: Yup.string()
-    .min(2, minMsg)
-    .max(4, maxMsg)
-    .required("Aircraft is required")
-    .matches(/^[a-zA-Z0-9]+$/, "Cannot contain special characters or spaces"),
-  squawk: Yup.number()
-    .required("Squawk is required")
-    .test(
-      "len",
-      "Must be exactly 4 characters",
-      (val) => typeof val === "number" && val.toString().length === 4
-    ),
-  taltitude: Yup.string()
-    .min(3, minMsg)
-    .max(6, maxMsg)
-    .matches(/^[a-zA-Z0-9]+$/, "Can only contain letters and numbers"),
-  rules: Yup.string()
-    .matches(/^[a-zA-Z]+$/, "Can only contain letters")
-    .required("Rules are required")
-    .test(
-      "len",
-      "Must be exactly 3 characters",
-      (val) => typeof val === "string" && val.length === 3
-    ),
-  departure_icao: Yup.string()
-    .matches(/^[a-zA-Z]+$/, "Can only contain letters")
-    .required("Departure is required")
-    .test(
-      "len",
-      "Must be exactly 4 characters",
-      (val) => typeof val === "string" && val.length === 4
-    ),
-  arrival_icao: Yup.string()
-    .matches(/^[a-zA-Z]+$/, "Can only contain letters")
-    .required("Arrival is required")
-    .test(
-      "len",
-      "Must be exactly 4 characters",
-      (val) => typeof val === "string" && val.length === 4
-    ),
-  altitude: Yup.string()
-    .min(3, minMsg)
-    .max(6, maxMsg)
-    .required("Altitude is required")
-    .matches(/^[a-zA-Z0-9]+$/, "Can only contain letters and numbers"),
-  route: Yup.string()
-    .max(140, maxMsg)
-    .required("Route is required")
-    .matches(/^[a-zA-Z0-9 ]+$/, "Cannot contain special characters"),
-  arrival_rw: Yup.string()
-    .min(1, minMsg)
-    .max(3, maxMsg)
-    .matches(/^[a-zA-Z0-9]+$/, "Can only contain letters and numbers"),
-  departure_rw: Yup.string()
-    .min(1, minMsg)
-    .max(3, maxMsg)
-    .matches(/^[a-zA-Z0-9]+$/, "Can only contain letters and numbers"),
-  departure_hdg: Yup.number().test(
-    "len",
-    "Must be exactly 3 characters",
-    (val) => typeof val === "number" && val.toString().length === 3
-  ),
-  remarks: Yup.string()
-    .max(140, maxMsg)
-    .matches(/^[a-zA-Z0-9 ]+$/, "Cannot contain special characters"),
-  scratchpad: Yup.string()
-    .max(140, maxMsg)
-    .matches(/^[a-zA-Z0-9 ]+$/, "Cannot contain special characters"),
-});
 
 export default function PlanTable({ plan, first }: Props) {
   const { socket, isConnected } = useContext(SocketContext);
@@ -108,7 +25,7 @@ export default function PlanTable({ plan, first }: Props) {
       <Formik
         initialValues={plan}
         onSubmit={console.dir}
-        validationSchema={valSchema}
+        validationSchema={planSchema}
       >
         <Form>
           <FontAwesomeIcon
@@ -196,6 +113,12 @@ export default function PlanTable({ plan, first }: Props) {
               maxLength={140}
             />
           </div>
+          <button
+            type="submit"
+            className="inline-flex items-center absolute right-4 bottom-4 self-end w-max text-left bg-green-500 hover:bg-green-700 text-white font-medium py-2 px-3 rounded"
+          >
+            <FontAwesomeIcon width={18} icon="save" />
+          </button>
         </Form>
       </Formik>
     </div>

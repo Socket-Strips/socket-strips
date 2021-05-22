@@ -15,6 +15,7 @@ import {
   faHandshake,
   faHandshakeSlash,
   faExclamationCircle,
+  faSave,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -24,7 +25,8 @@ library.add(
   faPaperPlane,
   faHandshake,
   faHandshakeSlash,
-  faExclamationCircle
+  faExclamationCircle,
+  faSave
 );
 
 const socket = io("localhost:3001");

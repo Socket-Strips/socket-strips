@@ -16,7 +16,9 @@ export default function generateRandPlan(): PlanProto {
     departure_hdg: Math.floor(Math.random() * 1000),
     remarks: "New to FSX",
     scratchpad: "Lol",
-    controller_id: `${Math.floor(Math.random() * 10000000000)}`,
+    controller_id: `${Math.random().toString(24).substr(2, 12)}${Math.random()
+      .toString(24)
+      .substr(2, 12)}`,
     created_at: Date.now().toString(),
   };
 }

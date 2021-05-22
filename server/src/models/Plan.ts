@@ -4,18 +4,18 @@ export interface IPlan extends Document {
   callsign: string;
   aircraft: string;
   squawk: number;
-  taltitude: string;
+  taltitude: string | undefined;
   rules: string;
   departure_icao: string;
   arrival_icao: string;
   altitude: string;
   route: string;
-  arrival_rw: string;
-  departure_rw: string;
-  departure_hdg: number;
-  remarks: string;
-  scratchpad: string;
-  controller_id: string;
+  arrival_rw: string | undefined;
+  departure_rw: string | undefined;
+  departure_hdg: number | undefined;
+  remarks: string | undefined;
+  scratchpad: string | undefined;
+  controller_id: string | undefined;
   created_at: string;
 }
 
