@@ -3,7 +3,7 @@ import { Server } from "socket.io";
 import logger from "./winston";
 import { config } from "dotenv";
 import connectDB from "./db";
-import Plan from "./models/Plan";
+import Plan, { IPlan } from "./models/Plan";
 import { CustomSocket } from "./types/socket";
 
 if (process.env["NODE_ENV"] !== "production") {
@@ -33,13 +33,17 @@ io.on("connect", async (socket) => {
   });
 
   socket.on("ping", () => {
-    logger.info(`ping from ${yellow(socket.id)}`);
+    logger.info(
+      `ping from ${yellow(socket.id)} (${yellow(
+        (socket as CustomSocket).user?.name || "Not Identified"
+      )})`
+    );
   });
 
-  socket.on("filePlan", async ({ type }: { type: string }) => {
-    const doc = await Plan.create({ type });
+  socket.on("filePlan", async (plan: IPlan) => {
+    const doc = await Plan.create(plan);
     logger.info(
-      `${yellow((socket as CustomSocket).user.name)} (${yellow(
+      `${yellow((socket as CustomSocket).user?.name)} (${yellow(
         socket.id
       )}) filed plan ${yellow(doc._id)}`
     );
