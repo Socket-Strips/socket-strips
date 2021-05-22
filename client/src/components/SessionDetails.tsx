@@ -1,3 +1,4 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { signIn, signOut, useSession } from "next-auth/client";
 import Image from "next/image";
 
@@ -5,16 +6,17 @@ export default function SessionDetails() {
   const [session] = useSession();
 
   return (
-    <div className="absolute right-4 w-max bg-blue-100 shadow-md p-3 rounded-md">
+    <div className="absolute cursor-default right-4 w-max bg-blue-50 shadow-md p-3 rounded-md">
       <div className="">
         {!session && (
           <>
             Not signed in <br />
             <button
-              className="mt-4 w-max text-left bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded"
+              className="inline-flex items-center mt-4 w-max text-left bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded"
               onClick={() => signIn()}
             >
               Sign in
+              <FontAwesomeIcon className="ml-2" width={18} icon="sign-in-alt" />
             </button>
           </>
         )}
@@ -32,10 +34,15 @@ export default function SessionDetails() {
               />
             </div>
             <button
-              className="mt-4 w-max text-left bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded"
+              className="inline-flex items-center mt-4 w-max text-left bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded"
               onClick={() => signOut()}
             >
               Sign out
+              <FontAwesomeIcon
+                className="ml-2"
+                width={18}
+                icon="sign-out-alt"
+              />
             </button>
           </div>
         )}

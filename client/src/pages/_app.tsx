@@ -6,6 +6,27 @@ import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import "../index.css";
 
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faTimes,
+  faSignOutAlt,
+  faSignInAlt,
+  faPaperPlane,
+  faHandshake,
+  faHandshakeSlash,
+  faExclamationCircle,
+} from "@fortawesome/free-solid-svg-icons";
+
+library.add(
+  faTimes,
+  faSignOutAlt,
+  faSignInAlt,
+  faPaperPlane,
+  faHandshake,
+  faHandshakeSlash,
+  faExclamationCircle
+);
+
 const socket = io("localhost:3001");
 
 function MyApp({ Component, pageProps }: AppProps) {

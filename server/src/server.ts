@@ -26,7 +26,9 @@ io.on("connect", async (socket) => {
 
   socket.on("setMyDetails", (user) => {
     logger.info(
-      `Socket ${yellow(socket.id)} identified as ${yellow(user?.name)}`
+      `${yellow(socket.id)} identified as ${yellow(user?.name)} (${yellow(
+        user?.email
+      )})`
     );
 
     (socket as CustomSocket).user = user;
@@ -50,11 +52,18 @@ io.on("connect", async (socket) => {
     io.emit("newPlan", doc);
   });
 
+  socket.on("deletePlan", async (id: string) => {
+    await Plan.findByIdAndDelete(id);
+
+    logger.info(
+      `${yellow((socket as CustomSocket).user?.name)} (${yellow(
+        socket.id
+      )}) deleted plan ${yellow(id)}`
+    );
+    io.emit("planDeleted", id);
+  });
+
   socket.on("disconnect", () => {
     logger.info(`${yellow(socket.id)} disconnected`);
   });
 });
-
-setInterval(() => {
-  io.emit("randomUpdate", Math.floor(Math.random() * 100));
-}, 1000);
