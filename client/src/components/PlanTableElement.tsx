@@ -7,13 +7,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SocketContext from "contexts/SocketContext";
 import { Form, Formik } from "formik";
 import planSchema from "@lib/schemas/planSchema";
+import deepDiffMapper from "functions/deepDiffMapper";
 
 interface Props {
   first: boolean;
   plan: Plan;
 }
 
-export default function PlanTable({ plan, first }: Props) {
+export default function PlanTableElement({ plan, first }: Props) {
   const { socket, isConnected } = useContext(SocketContext);
 
   return (
@@ -24,7 +25,13 @@ export default function PlanTable({ plan, first }: Props) {
     >
       <Formik
         initialValues={plan}
-        onSubmit={console.dir}
+        enableReinitialize
+        onSubmit={(values) => {
+          const changes = deepDiffMapper.map(values, plan) as Partial<Plan>;
+          if (Object.keys(changes).length !== 0) {
+            isConnected && socket.emit("updatePlan", plan.id, changes);
+          }
+        }}
         validationSchema={planSchema}
       >
         <Form>

@@ -70,6 +70,18 @@ io.on("connect", async (socket) => {
     io.emit("newPlan", doc);
   });
 
+  socket.on("updatePlan", async (id: Plan["id"], changes: Partial<Plan>) => {
+    const doc = await prisma.plan.update({ where: { id }, data: changes });
+
+    logger.info(
+      `${yellow((socket as CustomSocket).user?.name)} (${yellow(
+        socket.id
+      )}) updated plan ${yellow(doc.id)}`
+    );
+
+    io.emit("changedPlan", doc.id, changes);
+  });
+
   socket.on("deletePlan", async (id: Plan["id"]) => {
     const doc = await prisma.plan.delete({ where: { id } });
 

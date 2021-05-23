@@ -24,16 +24,10 @@ const planSchema = Yup.object({
     .max(4, maxMsg)
     .required("Aircraft is required")
     .matches(a1, "Cannot contain special characters or spaces"),
-  squawk: Yup.number()
-    .required("Squawk is required")
-    .test(
-      "len",
-      "Must be exactly 4 characters",
-      (val) => typeof val === "number" && val.toString().length === 4
-    ),
+  squawk: Yup.number().required("Squawk is required"),
   tAltitude: Yup.string()
-    .min(3, minMsg)
     .max(6, maxMsg)
+    .nullable()
     .matches(a1, "Can only contain letters and numbers"),
   rules: Yup.string()
     .matches(a, "Can only contain letters")
@@ -69,25 +63,28 @@ const planSchema = Yup.object({
     .required("Route is required")
     .matches(a_1, "Cannot contain special characters"),
   arrivalRw: Yup.string()
-    .min(1, minMsg)
+    .nullable()
     .max(3, maxMsg)
     .matches(a1, "Can only contain letters and numbers"),
   departureRw: Yup.string()
-    .min(1, minMsg)
+    .nullable()
     .max(3, maxMsg)
     .matches(a1, "Can only contain letters and numbers"),
   departureHdg: Yup.number()
+    .nullable()
     .max(360)
     .test(
       "len",
-      "Must be exactly 3 characters",
-      (val) => typeof val === "number" && val.toString().length === 3
+      "Must be longer than 0 characters",
+      (val) => typeof val === "number" && val.toString().length > 0
     ),
   remarks: Yup.string()
     .max(140, maxMsg)
+    .nullable()
     .matches(a_1, "Cannot contain special characters"),
   scratchpad: Yup.string()
     .max(140, maxMsg)
+    .nullable()
     .matches(a_1, "Cannot contain special characters"),
   ownerId: Yup.number().nullable(),
   controllerId: Yup.number().nullable(),

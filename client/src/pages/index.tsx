@@ -18,6 +18,13 @@ export const Home = (): JSX.Element => {
         return [...prev, plan];
       })
     );
+    socket.on("changedPlan", (id: Plan["id"], changes: Partial<Plan>) => {
+      setCurrentPlans((prev) => {
+        const idx = prev.findIndex((plan) => plan.id === id);
+        prev[idx] = { ...prev[idx], ...changes };
+        return [...prev];
+      });
+    });
     socket.on("planDeleted", (id: number) =>
       setCurrentPlans((prev) => prev.filter((val) => val.id !== id))
     );
@@ -26,6 +33,7 @@ export const Home = (): JSX.Element => {
       socket.off("currentPlans");
       socket.off("newPlan");
       socket.off("planDeleted");
+      socket.off("changedPlan");
     };
   }, [socket]);
 

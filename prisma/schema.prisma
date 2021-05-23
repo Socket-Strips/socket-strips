@@ -68,7 +68,7 @@ model Plan {
   id            Int      @id @default(autoincrement())
   callsign      String
   aircraft      String
-  squawk        Int
+  squawk        String
   tAltitude     String?  @map(name: "t_altitude")
   rules         String
   departureICAO String   @map(name: "departure_icao")
@@ -77,7 +77,7 @@ model Plan {
   route         String
   arrivalRw     String?  @map(name: "arrival_rw")
   departureRw   String?  @map(name: "departure_rw")
-  departureHdg  Int?     @map(name: "departure_hdg")
+  departureHdg  String?  @map(name: "departure_hdg")
   remarks       String?
   scratchpad    String?
   owner         User?    @relation("controlledPlans", fields: [ownerId], references: [id])
