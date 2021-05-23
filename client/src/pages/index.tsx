@@ -5,7 +5,7 @@ import SocketContext from "contexts/SocketContext";
 import generateRandPlan from "functions/generateRandPlan";
 import Head from "next/head";
 import { useContext, useEffect, useState } from "react";
-import { Plan } from "types/db";
+import { Plan } from "@prisma/client";
 
 export const Home = (): JSX.Element => {
   const { socket, isConnected } = useContext(SocketContext);
@@ -18,8 +18,8 @@ export const Home = (): JSX.Element => {
         return [...prev, plan];
       })
     );
-    socket.on("planDeleted", (id: string) =>
-      setCurrentPlans((prev) => prev.filter((val) => val._id !== id))
+    socket.on("planDeleted", (id: number) =>
+      setCurrentPlans((prev) => prev.filter((val) => val.id !== id))
     );
 
     return () => {

@@ -2,7 +2,7 @@ import { useContext } from "react";
 
 import PlanTableSubElement from "./PlanTableSubElement";
 
-import { Plan } from "types/db";
+import { Plan } from "@prisma/client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SocketContext from "contexts/SocketContext";
 import { Form, Formik } from "formik";
@@ -32,7 +32,7 @@ export default function PlanTable({ plan, first }: Props) {
             className="cursor-pointer absolute right-4 top-4 text-gray-500 hover:text-gray-700"
             width={18}
             icon="times"
-            onClick={() => isConnected && socket.emit("deletePlan", plan._id)}
+            onClick={() => isConnected && socket.emit("deletePlan", plan.id)}
           />
           <div className="mr-10 grid grid-cols-5 gap-5">
             <PlanTableSubElement
@@ -55,7 +55,7 @@ export default function PlanTable({ plan, first }: Props) {
             />
             <PlanTableSubElement
               label="Temp. Altitude"
-              name="taltitude"
+              name="tAltitude"
               minLength={3}
               maxLength={6}
             />
@@ -67,13 +67,13 @@ export default function PlanTable({ plan, first }: Props) {
             />
             <PlanTableSubElement
               label="Departure ICAO"
-              name="departure_icao"
+              name="departureICAO"
               minLength={4}
               maxLength={4}
             />
             <PlanTableSubElement
               label="Arrival ICAO"
-              name="arrival_icao"
+              name="arrivalICAO"
               minLength={4}
               maxLength={4}
             />
@@ -86,19 +86,19 @@ export default function PlanTable({ plan, first }: Props) {
             <PlanTableSubElement name="route" label="Route" maxLength={140} />
             <PlanTableSubElement
               label="Arrival RW"
-              name="arrival_rw"
+              name="arrivalRw"
               minLength={1}
               maxLength={3}
             />
             <PlanTableSubElement
               label="Departure RW"
-              name="departure_rw"
+              name="departureRw"
               minLength={1}
               maxLength={3}
             />
             <PlanTableSubElement
               label="Departure HDG"
-              name="departure_hdg"
+              name="departureHdg"
               minLength={3}
               maxLength={3}
             />

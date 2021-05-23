@@ -11,14 +11,9 @@ const a = /^[a-zA-Z]+$/;
 const a_1 = /^[a-zA-Z0-9 ]+$/;
 
 const planSchema = Yup.object({
-  _id: Yup.string()
+  id: Yup.string()
     .required("ID is required")
-    .matches(a1, "Can only contain letters and numbers")
-    .test(
-      "len",
-      "Must be exactly 24 characters",
-      (val) => typeof val === "string" && val.length === 24
-    ),
+    .matches(a1, "Can only contain letters and numbers"),
   callsign: Yup.string()
     .min(4, minMsg)
     .max(6, maxMsg)
@@ -36,7 +31,7 @@ const planSchema = Yup.object({
       "Must be exactly 4 characters",
       (val) => typeof val === "number" && val.toString().length === 4
     ),
-  taltitude: Yup.string()
+  tAltitude: Yup.string()
     .min(3, minMsg)
     .max(6, maxMsg)
     .matches(a1, "Can only contain letters and numbers"),
@@ -48,7 +43,7 @@ const planSchema = Yup.object({
       "Must be exactly 3 characters",
       (val) => typeof val === "string" && val.length === 3
     ),
-  departure_icao: Yup.string()
+  departureICAO: Yup.string()
     .matches(a, "Can only contain letters")
     .required("Departure is required")
     .test(
@@ -56,7 +51,7 @@ const planSchema = Yup.object({
       "Must be exactly 4 characters",
       (val) => typeof val === "string" && val.length === 4
     ),
-  arrival_icao: Yup.string()
+  arrivalICAO: Yup.string()
     .matches(a, "Can only contain letters")
     .required("Arrival is required")
     .test(
@@ -73,15 +68,15 @@ const planSchema = Yup.object({
     .max(140, maxMsg)
     .required("Route is required")
     .matches(a_1, "Cannot contain special characters"),
-  arrival_rw: Yup.string()
+  arrivalRw: Yup.string()
     .min(1, minMsg)
     .max(3, maxMsg)
     .matches(a1, "Can only contain letters and numbers"),
-  departure_rw: Yup.string()
+  departureRw: Yup.string()
     .min(1, minMsg)
     .max(3, maxMsg)
     .matches(a1, "Can only contain letters and numbers"),
-  departure_hdg: Yup.number()
+  departureHdg: Yup.number()
     .max(360)
     .test(
       "len",
@@ -94,15 +89,10 @@ const planSchema = Yup.object({
   scratchpad: Yup.string()
     .max(140, maxMsg)
     .matches(a_1, "Cannot contain special characters"),
-  controller_id: Yup.string()
-    .matches(a1, "Cannot contain special characters or spaces")
-    .test(
-      "len",
-      "Must be exactly 24 characters",
-      (val) => typeof val === "string" && val.length === 24
-    ),
-  created_at: Yup.date().required("Created At is required"),
-  __v: Yup.number().required("Versioning is required"),
+  ownerId: Yup.number().nullable(),
+  controllerId: Yup.number().nullable(),
+  createdAt: Yup.date().required("Created At is required"),
+  updatedAt: Yup.date().required("Updated At is required"),
 });
 
 export default planSchema;
