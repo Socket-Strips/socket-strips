@@ -26,11 +26,21 @@ export default function PlanTableElement({ plan, first }: Props) {
       <Formik
         initialValues={plan}
         enableReinitialize
-        onSubmit={(values) => {
+        onSubmit={(values, { setSubmitting, setStatus }) => {
           const changes = deepDiffMapper.map(values, plan) as Partial<Plan>;
+
+          // TODO: Add toasts with messages
           if (Object.keys(changes).length !== 0) {
-            isConnected && socket.emit("updatePlan", plan.id, changes);
+            if (isConnected) {
+              socket.emit("updatePlan", plan.id, changes);
+            } else {
+              setStatus("Socket could not connect");
+            }
+          } else {
+            setStatus("No change was made");
           }
+
+          setSubmitting(false);
         }}
         validationSchema={planSchema}
       >
