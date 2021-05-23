@@ -3,6 +3,7 @@
 WIP
 
 ## Features
+
 ### Server and Client
 
 Feature | Server | Client |
@@ -23,7 +24,7 @@ Docker |  |   |
 ### Client
 
 * [ ] Proper design
-* [ ] Toasts
+* [x] Toasts
 
 `npx prisma generate`
 

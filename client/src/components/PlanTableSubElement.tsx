@@ -33,8 +33,8 @@ export default function PlanTableSubElement({
           <input
             className={`${
               meta.error
-                ? "bg-gray-100 border border-red-500 "
-                : "bg-gray-100 border border-gray-400 "
+                ? "bg-gray-200 border border-red-500 "
+                : "bg-gray-200 border border-gray-400 "
             }w-36 text-black px-2 py-1 rounded-md shadow-inner`}
             type={type}
             {...field}

@@ -17,6 +17,7 @@ import {
   faExclamationCircle,
   faSave,
 } from "@fortawesome/free-solid-svg-icons";
+import toast, { Toaster } from "react-hot-toast";
 
 library.add(
   faTimes,
@@ -37,9 +38,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     socket.on("connect", () => {
       setIsConnected(true);
+      toast.success("Socket connected!");
     });
     socket.on("disconnect", () => {
       setIsConnected(false);
+      toast.error("Socket disconnected!");
     });
     return () => {
       socket.disconnect();
@@ -49,8 +52,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider session={pageProps.session}>
       <SocketContext.Provider value={{ socket, isConnected }}>
+        <Toaster position="top-right" />
         <SetMyDetails />
-        <Component {...pageProps} />;
+        <Component {...pageProps} />
       </SocketContext.Provider>
     </Provider>
   );

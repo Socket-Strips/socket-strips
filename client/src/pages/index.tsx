@@ -6,6 +6,7 @@ import generateRandPlan from "functions/generateRandPlan";
 import Head from "next/head";
 import { useContext, useEffect, useState } from "react";
 import { Plan } from "@prisma/client";
+import toast from "react-hot-toast";
 
 export const Home = (): JSX.Element => {
   const { socket, isConnected } = useContext(SocketContext);
@@ -44,48 +45,60 @@ export const Home = (): JSX.Element => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="flex flex-col">
-        <div className="m-4 min-w-max max-w-4xl">
-          <div className="bg-blue-100 p-4 rounded relative">
-            <SessionDetails />
-            <span className="flex items-center">
-              {isConnected ? (
-                <>
-                  <FontAwesomeIcon
-                    className="text-gray-700"
-                    width={40}
-                    icon="handshake"
-                  />
-                  <span className="ml-3 font-semibold">Connected</span>
-                </>
-              ) : (
-                <>
-                  <FontAwesomeIcon
-                    className="text-gray-500"
-                    width={40}
-                    icon="handshake-slash"
-                  />
-                  <span className="ml-3 font-semibold">Not Connected</span>
-                </>
-              )}
-            </span>
-            <button
-              className="flex mt-4 w-max text-left bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded"
-              onClick={() => isConnected && socket.emit("ping")}
-            >
-              Ping
-            </button>
-            <button
-              className="inline-flex items-center mt-4 mb-4 w-max text-left bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded"
-              onClick={() => {
-                const plan = generateRandPlan();
-                isConnected && socket.emit("filePlan", plan);
-              }}
-            >
-              File plan
-              <FontAwesomeIcon className="ml-2" width={18} icon="paper-plane" />
-            </button>
-            <PlanTable plans={currentPlans} />
+      <div className="bg-gray-700 text-gray-200 min-h-screen">
+        <div className="flex flex-col">
+          <div className="m-4 min-w-max max-w-4xl">
+            <div className="bg-gray-600 p-4 rounded relative">
+              <SessionDetails />
+              <span className="flex items-center">
+                {isConnected ? (
+                  <>
+                    <FontAwesomeIcon
+                      className="text-gray-200"
+                      width={40}
+                      icon="handshake"
+                    />
+                    <span className="ml-3 font-semibold">Connected</span>
+                  </>
+                ) : (
+                  <>
+                    <FontAwesomeIcon
+                      className="text-gray-200"
+                      width={40}
+                      icon="handshake-slash"
+                    />
+                    <span className="ml-3 font-semibold">Not Connected</span>
+                  </>
+                )}
+              </span>
+              <button
+                className="flex mt-4 w-max text-left bg-gray-500 hover:bg-gray-400 text-white font-medium py-2 px-4 rounded"
+                onClick={() =>
+                  isConnected &&
+                  socket.emit("ping") &&
+                  toast("Sent a ping!", { icon: "👏" })
+                }
+              >
+                Ping
+              </button>
+              <button
+                className="inline-flex items-center mt-4 mb-4 w-max text-left bg-gray-500 hover:bg-gray-400 text-white font-medium py-2 px-4 rounded"
+                onClick={() => {
+                  const plan = generateRandPlan();
+                  isConnected &&
+                    socket.emit("filePlan", plan) &&
+                    toast.success("Plan filed!");
+                }}
+              >
+                File plan
+                <FontAwesomeIcon
+                  className="ml-2"
+                  width={18}
+                  icon="paper-plane"
+                />
+              </button>
+              <PlanTable plans={currentPlans} />
+            </div>
           </div>
         </div>
       </div>

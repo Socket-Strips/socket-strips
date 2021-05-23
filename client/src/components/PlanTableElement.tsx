@@ -8,6 +8,7 @@ import SocketContext from "contexts/SocketContext";
 import { Form, Formik } from "formik";
 import planSchema from "@lib/schemas/planSchema";
 import deepDiffMapper from "functions/deepDiffMapper";
+import toast from "react-hot-toast";
 
 interface Props {
   first: boolean;
@@ -21,7 +22,7 @@ export default function PlanTableElement({ plan, first }: Props) {
     <div
       className={`${
         first ? "" : "mt-8 "
-      }bg-blue-100 p-4 rounded-md shadow-md relative`}
+      }bg-gray-600 p-4 rounded-md shadow-md relative`}
     >
       <Formik
         initialValues={plan}
@@ -33,11 +34,15 @@ export default function PlanTableElement({ plan, first }: Props) {
           if (Object.keys(changes).length !== 0) {
             if (isConnected) {
               socket.emit("updatePlan", plan.id, changes);
+              toast.success("Plan saved successfully!");
             } else {
               setStatus("Socket could not connect");
+              console.error("Socket could not connect");
+              toast.error("Something went wrong!");
             }
           } else {
             setStatus("No change was made");
+            toast.error("You need to make a change!");
           }
 
           setSubmitting(false);
@@ -46,7 +51,7 @@ export default function PlanTableElement({ plan, first }: Props) {
       >
         <Form>
           <FontAwesomeIcon
-            className="cursor-pointer absolute right-4 top-4 text-gray-500 hover:text-gray-700"
+            className="cursor-pointer absolute right-4 top-4 text-gray-500 hover:text-gray-300"
             width={18}
             icon="times"
             onClick={() => isConnected && socket.emit("deletePlan", plan.id)}
