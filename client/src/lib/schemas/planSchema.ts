@@ -81,11 +81,13 @@ const planSchema = Yup.object({
     .min(1, minMsg)
     .max(3, maxMsg)
     .matches(a1, "Can only contain letters and numbers"),
-  departure_hdg: Yup.number().test(
-    "len",
-    "Must be exactly 3 characters",
-    (val) => typeof val === "number" && val.toString().length === 3
-  ),
+  departure_hdg: Yup.number()
+    .max(360)
+    .test(
+      "len",
+      "Must be exactly 3 characters",
+      (val) => typeof val === "number" && val.toString().length === 3
+    ),
   remarks: Yup.string()
     .max(140, maxMsg)
     .matches(a_1, "Cannot contain special characters"),
