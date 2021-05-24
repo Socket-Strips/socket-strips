@@ -32,13 +32,13 @@ if (process.env["NODE_ENV"] !== "production") {
   config();
 }
 
-const PORT = Number(process.env["$PORT"]) || 3001;
+const PORT = Number(process.env["PORT"]) || 3001;
 
 const io = new Server(PORT, {
   cors: { origin: process.env["CORS_ORIGIN"] },
 });
 
-console.log(`$PORT=${process.env["$PORT"]}`);
+console.log(`PORT=${process.env["PORT"]}`);
 console.log(`Listening on: ${PORT}`);
 logger.info(`Listening on: ${PORT}`);
 
