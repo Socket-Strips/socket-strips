@@ -35,3 +35,14 @@ put socket into app useEffect
 `docker run --name some-postgres -e POSTGRES_PASSWORD=12345 -d -p 5432:5432 postgres`
 
 CURRENTLY `chalk, dotenv, socket.io, and winston` ARE INSTALLED OUTSIDE SO HEROKU WORKS, CHANGE THIS
+
+### Envs
+
+Heroku: `CORS_ORIGIN, DATABASE_URL`
+
+Next:
+
+* Commands:
+  * Build: `mv ../prisma . && npx prisma generate && next build`
+  * Install: `yarn && yarn add @prisma/client prisma typescript`
+* Env: `DATABASE_URL, NEXTAUTH_URL, NEXT_PUBLIC_SOCKET_URL, DISCORD_SECRET, DISCORD_ID`
