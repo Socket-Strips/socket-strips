@@ -26,6 +26,8 @@ Docker |  |   |
 * [ ] Proper design
 * [x] Toasts
 
+put socket into app useEffect
+
 `npx prisma generate`
 
 `npx prisma migrate dev`
