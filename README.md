@@ -33,3 +33,5 @@ put socket into app useEffect
 `npx prisma migrate dev`
 
 `docker run --name some-postgres -e POSTGRES_PASSWORD=12345 -d -p 5432:5432 postgres`
+
+CURRENTLY `chalk, dotenv, socket.io, and winston` ARE INSTALLED OUTSIDE SO HEROKU WORKS, CHANGE THIS
