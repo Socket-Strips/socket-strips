@@ -38,7 +38,6 @@ const io = new Server(PORT, {
   cors: { origin: process.env["CORS_ORIGIN"] },
 });
 
-console.log(`PORT=${process.env["PORT"]}`);
 console.log(`Listening on: ${PORT}`);
 logger.info(`Listening on: ${PORT}`);
 
