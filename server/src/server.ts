@@ -32,17 +32,15 @@ if (process.env["NODE_ENV"] !== "production") {
   config();
 }
 
-let PORT;
-
-if (Number(process.env["$PORT"] || process.env["SERVER_PORT"]) > 0) {
-  PORT = Number(process.env["$PORT"] || process.env["SERVER_PORT"]);
-} else {
-  PORT = 3001;
-}
-
-const io = new Server(PORT, {
-  cors: { origin: process.env["CORS_ORIGIN"] },
-});
+const io = new Server(
+  process.env["$PORT"] || process.env["SERVER_PORT"]
+    ? (process.env["$PORT"] as unknown as number) ||
+      (process.env["SERVER_PORT"] as unknown as number)
+    : 3001,
+  {
+    cors: { origin: process.env["CORS_ORIGIN"] },
+  }
+);
 
 io.on("connect", async (socket) => {
   logger.info(`${yellow(socket.id)} connected`);
