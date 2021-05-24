@@ -34,8 +34,7 @@ if (process.env["NODE_ENV"] !== "production") {
 
 const io = new Server(
   process.env["$PORT"] || process.env["SERVER_PORT"]
-    ? (process.env["$PORT"] as unknown as number) ||
-      (process.env["SERVER_PORT"] as unknown as number)
+    ? Number(process.env["$PORT"]) || Number(process.env["SERVER_PORT"])
     : 3001,
   {
     cors: { origin: process.env["CORS_ORIGIN"] },
