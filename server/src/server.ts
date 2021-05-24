@@ -32,7 +32,17 @@ if (process.env["NODE_ENV"] !== "production") {
   config();
 }
 
-const io = new Server(3001, { cors: { origin: process.env["CORS_ORIGIN"] } });
+let PORT;
+
+if (Number(process.env["$PORT"] || process.env["SERVER_PORT"]) > 0) {
+  PORT = Number(process.env["$PORT"] || process.env["SERVER_PORT"]);
+} else {
+  PORT = 3001;
+}
+
+const io = new Server(PORT, {
+  cors: { origin: process.env["CORS_ORIGIN"] },
+});
 
 io.on("connect", async (socket) => {
   logger.info(`${yellow(socket.id)} connected`);

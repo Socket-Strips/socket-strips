@@ -30,7 +30,7 @@ library.add(
   faSave
 );
 
-const socket = io("localhost:3001");
+const socket = io(process.env.SOCKET_URL || "localhost:3001");
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [isConnected, setIsConnected] = useState(socket.connected);
