@@ -38,7 +38,7 @@ const io = new Server(PORT, {
   cors: { origin: process.env["CORS_ORIGIN"] },
 });
 
-console.log(`Listening on: ${PORT}`);
+console.log(`Listening on: ${PORT}`); // Fallback incase winston fails
 logger.info(`Listening on: ${PORT}`);
 
 io.on("connect", async (socket) => {

@@ -2,7 +2,7 @@ import SetMyDetails from "@components/SetMyDetails";
 import SocketContext from "contexts/SocketContext";
 import { Provider } from "next-auth/client";
 import type { AppProps } from "next/app";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
 import "../index.css";
 
@@ -30,12 +30,19 @@ library.add(
   faSave
 );
 
-const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL || "localhost:3001");
-
 function MyApp({ Component, pageProps }: AppProps) {
+  const _socket = useRef(
+    io(process.env.NEXT_PUBLIC_SOCKET_URL || "localhost:3001", {
+      autoConnect: false,
+    })
+  );
+
+  const [socket] = useState(_socket.current);
+
   const [isConnected, setIsConnected] = useState(socket.connected);
 
   useEffect(() => {
+    socket.connect();
     socket.on("connect", () => {
       setIsConnected(true);
       toast.success("Socket connected!");
@@ -47,7 +54,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [socket]);
 
   return (
     <Provider session={pageProps.session}>
