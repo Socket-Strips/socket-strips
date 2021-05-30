@@ -4,8 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint .",
-    "start": "npx prisma generate && cd ./server && tsc && node ./dist/server.js"
+    "lint": "eslint ."
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.23.0",
