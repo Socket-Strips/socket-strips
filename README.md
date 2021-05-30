@@ -38,11 +38,11 @@ CURRENTLY `chalk, dotenv, socket.io, and winston` ARE INSTALLED OUTSIDE SO HEROK
 
 ### Envs
 
-Heroku: `CORS_ORIGIN, DATABASE_URL`
+Heroku: `CORS_ORIGIN, DATABASE_URL, SHADOW_DATABASE_URL`
 
 Next:
 
 * Commands:
   * Build: `mv ../prisma . && npx prisma generate && next build`
   * Install: `yarn && yarn add @prisma/client prisma typescript`
-* Env: `DATABASE_URL, NEXTAUTH_URL, NEXT_PUBLIC_SOCKET_URL, DISCORD_SECRET, DISCORD_ID`
+* Env: `DATABASE_URL, SHADOW_DATABASE_URL, NEXTAUTH_URL, NEXT_PUBLIC_SOCKET_URL, DISCORD_SECRET, DISCORD_ID`
