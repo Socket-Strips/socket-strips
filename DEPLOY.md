@@ -48,6 +48,6 @@
 
 ### Local Client
 
-* Rename `.env.development.local` to `.env.local` in client folder and set the variables.
+* Rename `..env.local` to `.env.local` in client folder and set the variables.
 
 * Run `yarn client`
