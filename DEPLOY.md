@@ -2,6 +2,10 @@
 
 ## Heroku and Vercel
 
+### Discord
+
+* Remember to set the OAauth2 redirect, e.g. `http://localhost:3000/api/auth/callback/discord`
+
 ### Heroku Server and DB
 
 * Install the Heroku Postgres addon, it will automatically set `DATABASE_URL`.
