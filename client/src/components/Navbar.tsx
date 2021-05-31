@@ -1,9 +1,15 @@
 import { signIn, signOut, useSession } from "next-auth/client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
+import { useContext } from "react";
+import SocketContext from "contexts/SocketContext";
+import generateRandPlan from "functions/generateRandPlan";
+import toast from "react-hot-toast";
 
 // Taken from merakiui
 export default function Navbar() {
+  const { socket, isConnected } = useContext(SocketContext);
+
   const [session] = useSession();
 
   return (
@@ -23,7 +29,7 @@ export default function Navbar() {
             <div className="flex md:hidden">
               <button
                 type="button"
-                className="text-gray-200 hover:text-gray-400 focus:outline-none focus:text-gray-400"
+                className="text-gray-200 hover:text-gray-400 focus:text-gray-400"
                 aria-label="toggle menu"
               >
                 <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current">
@@ -38,18 +44,46 @@ export default function Navbar() {
 
           <div className="flex-1 md:flex md:items-center md:justify-between text-sm">
             <div className="flex flex-col -mx-4 md:flex-row md:items-center md:mx-8">
-              <a
-                href="#"
-                className="px-2 py-1 mx-2 mt-2 font-medium transition-colors duration-200 transform rounded-md md:mt-0 text-gray-200 hover:bg-gray-700"
-              >
-                Join Slack
-              </a>
-              <a
-                href="#"
-                className="px-2 py-1 mx-2 mt-2 font-medium transition-colors duration-200 transform rounded-md md:mt-0 text-gray-200 hover:bg-gray-700"
-              >
-                Browse Topics
-              </a>
+              {session && isConnected && (
+                <button
+                  className="px-2 py-1 mx-2 mt-2 font-medium transition-colors duration-200 transform rounded-md md:mt-0 text-gray-200 hover:bg-gray-700"
+                  onClick={() => {
+                    const plan = generateRandPlan();
+                    isConnected &&
+                      socket.emit("filePlan", plan) &&
+                      toast.success("Plan filed!");
+                  }}
+                >
+                  File Plan
+                  <FontAwesomeIcon
+                    className="ml-2"
+                    width={18}
+                    icon="paper-plane"
+                  />
+                </button>
+              )}
+
+              {session &&
+                isConnected &&
+                process &&
+                process.env.NODE_ENV === "development" && (
+                  <button
+                    className="px-2 py-1 mx-2 mt-2 font-medium transition-colors duration-200 transform rounded-md md:mt-0 text-gray-200 hover:bg-gray-700"
+                    onClick={() =>
+                      isConnected &&
+                      socket.emit("ping") &&
+                      toast("Sent a ping!", { icon: "👏" })
+                    }
+                  >
+                    Ping
+                    <FontAwesomeIcon
+                      className="ml-2"
+                      width={18}
+                      icon="table-tennis"
+                    />
+                  </button>
+                )}
+
               <a
                 href="#"
                 className="px-2 py-1 mx-2 mt-2 font-medium transition-colors duration-200 transform rounded-md md:mt-0 text-gray-200 hover:bg-gray-700"
@@ -60,7 +94,8 @@ export default function Navbar() {
                 href="#"
                 className="px-2 py-1 mx-2 mt-2 font-medium transition-colors duration-200 transform rounded-md md:mt-0 text-gray-200 hover:bg-gray-700"
               >
-                Experts
+                Contact Us
+                <FontAwesomeIcon className="ml-2" width={18} icon="envelope" />
               </a>
             </div>
 
@@ -69,14 +104,18 @@ export default function Navbar() {
                 <>
                   <button
                     type="button"
-                    className="flex items-center focus:outline-none mr-4 px-2 py-1 rounded-md hover:bg-gray-700"
+                    className="flex items-center mr-4 px-2 py-1 rounded-md hover:bg-gray-700"
                     aria-label="toggle profile dropdown"
                   >
                     <span className="mr-4 font-medium">
                       {session.user?.name}
                     </span>
 
-                    <div className="w-8 h-8 overflow-hidden border-2 border-gray-400 rounded-full">
+                    <div
+                      className={`w-8 h-8 overflow-hidden border-2 ${
+                        isConnected ? "border-gray-400" : "border-red-400"
+                      } rounded-full`}
+                    >
                       <Image
                         className="object-cover w-full h-full"
                         src={session.user?.image || "https://picsum.photos/200"}

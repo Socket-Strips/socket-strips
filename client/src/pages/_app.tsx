@@ -16,8 +16,12 @@ import {
   faHandshakeSlash,
   faExclamationCircle,
   faSave,
+  faTableTennis,
+  faEnvelope,
 } from "@fortawesome/free-solid-svg-icons";
 import toast, { Toaster } from "react-hot-toast";
+import PlanContext from "contexts/PlanContext";
+import { Plan } from "@prisma/client";
 
 library.add(
   faTimes,
@@ -27,7 +31,9 @@ library.add(
   faHandshake,
   faHandshakeSlash,
   faExclamationCircle,
-  faSave
+  faSave,
+  faTableTennis,
+  faEnvelope
 );
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -38,6 +44,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   );
 
   const [socket] = useState(_socket.current);
+
+  const [plans, setPlans] = useState<Plan[]>([]);
 
   const [isConnected, setIsConnected] = useState(socket.connected);
 
@@ -59,9 +67,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider session={pageProps.session}>
       <SocketContext.Provider value={{ socket, isConnected }}>
-        <Toaster position="top-right" />
-        <SetMyDetails />
-        <Component {...pageProps} />
+        <PlanContext.Provider value={{ plans, setPlans }}>
+          <Toaster position="top-right" />
+          <SetMyDetails />
+          <Component {...pageProps} />
+        </PlanContext.Provider>
       </SocketContext.Provider>
     </Provider>
   );
