@@ -7,10 +7,9 @@ import planSchema from "@lib/schemas/planSchema";
 import deepDiffMapper from "functions/deepDiffMapper";
 import toast from "react-hot-toast";
 import { useAppSelector } from "redux/hooks";
-import {
-  selectSocket,
-  selectSocketIsConnected,
-} from "redux/slices/socketSlice";
+import { selectSocketIsConnected } from "redux/slices/socketSlice";
+import SocketContext from "contexts/socketContext";
+import { useContext } from "react";
 
 interface Props {
   first: boolean;
@@ -18,7 +17,7 @@ interface Props {
 }
 
 export default function PlanTableElement({ plan, first }: Props) {
-  const socket = useAppSelector(selectSocket);
+  const socket = useContext(SocketContext);
   const isConnected = useAppSelector(selectSocketIsConnected);
 
   return (

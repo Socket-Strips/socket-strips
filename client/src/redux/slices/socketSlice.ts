@@ -1,10 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Session } from "next-auth";
-import { io, Socket } from "socket.io-client";
 import { RootState } from "../store";
 
 export interface SocketState {
-  value: Socket;
   isConnected: boolean;
   userDetails: {
     isSet: boolean;
@@ -13,9 +11,6 @@ export interface SocketState {
 }
 
 const initialState: SocketState = {
-  value: io(process.env.NEXT_PUBLIC_SOCKET_URL || "localhost:3001", {
-    autoConnect: false,
-  }),
   isConnected: false,
   userDetails: {
     isSet: false,
@@ -42,8 +37,6 @@ export const socketSlice = createSlice({
 
 export const { setConnected, setDisconnected, setUserDetails } =
   socketSlice.actions;
-
-export const selectSocket = (state: RootState) => state.socket.value;
 
 export const selectSocketIsConnected = (state: RootState) =>
   state.socket.isConnected;

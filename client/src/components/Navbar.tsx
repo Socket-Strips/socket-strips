@@ -1,17 +1,17 @@
 import { signIn, signOut, useSession } from "next-auth/client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
+import Link from "next/link";
 import generateRandPlan from "functions/generateRandPlan";
 import toast from "react-hot-toast";
 import { useAppSelector } from "redux/hooks";
-import {
-  selectSocket,
-  selectSocketIsConnected,
-} from "redux/slices/socketSlice";
+import { selectSocketIsConnected } from "redux/slices/socketSlice";
+import { useContext } from "react";
+import SocketContext from "contexts/socketContext";
 
 // Taken from merakiui
 export default function Navbar() {
-  const socket = useAppSelector(selectSocket);
+  const socket = useContext(SocketContext);
   const isConnected = useAppSelector(selectSocketIsConnected);
 
   const [session] = useSession();
@@ -50,7 +50,7 @@ export default function Navbar() {
             <div className="flex flex-col -mx-4 md:flex-row md:items-center md:mx-8">
               {session && isConnected && (
                 <button
-                  className="px-2 py-1 mx-2 mt-2 font-medium transition-colors duration-200 transform rounded-md md:mt-0 text-gray-200 hover:bg-gray-700"
+                  className="inline-flex px-2 py-1 mx-2 mt-2 font-medium transition-colors duration-200 transform rounded-md md:mt-0 text-gray-200 hover:bg-gray-700"
                   onClick={() => {
                     const plan = generateRandPlan();
                     isConnected &&
@@ -72,7 +72,7 @@ export default function Navbar() {
                 process &&
                 process.env.NODE_ENV === "development" && (
                   <button
-                    className="px-2 py-1 mx-2 mt-2 font-medium transition-colors duration-200 transform rounded-md md:mt-0 text-gray-200 hover:bg-gray-700"
+                    className="inline-flex px-2 py-1 mx-2 mt-2 font-medium transition-colors duration-200 transform rounded-md md:mt-0 text-gray-200 hover:bg-gray-700"
                     onClick={() =>
                       isConnected &&
                       socket.emit("ping") &&
@@ -90,17 +90,20 @@ export default function Navbar() {
 
               <a
                 href="#"
-                className="px-2 py-1 mx-2 mt-2 font-medium transition-colors duration-200 transform rounded-md md:mt-0 text-gray-200 hover:bg-gray-700"
+                className="inline-flex px-2 py-1 mx-2 mt-2 font-medium transition-colors duration-200 transform rounded-md md:mt-0 text-gray-200 hover:bg-gray-700"
               >
                 Random Item
               </a>
-              <a
-                href="#"
-                className="px-2 py-1 mx-2 mt-2 font-medium transition-colors duration-200 transform rounded-md md:mt-0 text-gray-200 hover:bg-gray-700"
-              >
-                Contact Us
-                <FontAwesomeIcon className="ml-2" width={18} icon="envelope" />
-              </a>
+              <Link href="/contact" passHref>
+                <a className="inline-flex px-2 py-1 mx-2 mt-2 font-medium transition-colors duration-200 transform rounded-md md:mt-0 text-gray-200 hover:bg-gray-700">
+                  Contact Us
+                  <FontAwesomeIcon
+                    className="ml-2"
+                    width={18}
+                    icon="envelope"
+                  />
+                </a>
+              </Link>
             </div>
 
             <div className="flex items-center mt-4 md:mt-0">
@@ -108,7 +111,7 @@ export default function Navbar() {
                 <>
                   <button
                     type="button"
-                    className="flex items-center mr-4 px-2 py-1 rounded-md hover:bg-gray-700"
+                    className="inline-flex items-center mr-4 px-2 py-1 rounded-md hover:bg-gray-700"
                     aria-label="toggle profile dropdown"
                   >
                     <span className="mr-4 font-medium">

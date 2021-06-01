@@ -1,21 +1,21 @@
 import PlanTable from "@components/PlanTable";
 import Head from "next/head";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Plan } from "@prisma/client";
 import { useRouter } from "next/dist/client/router";
 import { useSession } from "next-auth/client";
 import Layout from "@components/Layout";
-import { useAppDispatch, useAppSelector } from "redux/hooks";
-import { selectSocket } from "redux/slices/socketSlice";
+import { useAppDispatch } from "redux/hooks";
 import {
   addPlan,
   removePlan,
   setCurrentPlans,
   updatePlan,
 } from "redux/slices/plansSlice";
+import SocketContext from "contexts/socketContext";
 
 export const ATC = (): JSX.Element => {
-  const socket = useAppSelector(selectSocket);
+  const socket = useContext(SocketContext);
   const dispatch = useAppDispatch();
 
   const router = useRouter();

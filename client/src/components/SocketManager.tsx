@@ -1,14 +1,11 @@
-import { useEffect } from "react";
+import SocketContext from "contexts/socketContext";
+import { useContext, useEffect } from "react";
 import toast from "react-hot-toast";
-import { useAppSelector, useAppDispatch } from "redux/hooks";
-import {
-  selectSocket,
-  setConnected,
-  setDisconnected,
-} from "redux/slices/socketSlice";
+import { useAppDispatch } from "redux/hooks";
+import { setConnected, setDisconnected } from "redux/slices/socketSlice";
 
 export default function SocketManager() {
-  const socket = useAppSelector(selectSocket);
+  const socket = useContext(SocketContext);
   const dispatch = useAppDispatch();
 
   useEffect(() => {

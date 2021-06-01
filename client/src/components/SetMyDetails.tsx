@@ -1,8 +1,8 @@
+import SocketContext from "contexts/socketContext";
 import { useSession } from "next-auth/client";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import {
-  selectSocket,
   selectSocketIsConnected,
   selectUserDetails,
   setUserDetails,
@@ -10,7 +10,7 @@ import {
 
 // Have to use this because useSession be *b r o k e* in _app https://github.com/nextauthjs/next-auth/issues/345
 export default function SetMyDetails() {
-  const socket = useAppSelector(selectSocket);
+  const socket = useContext(SocketContext);
   const isConnected = useAppSelector(selectSocketIsConnected);
   const { isSet: detailsSet } = useAppSelector(selectUserDetails);
 
