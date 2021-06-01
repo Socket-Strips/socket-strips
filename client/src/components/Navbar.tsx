@@ -1,14 +1,18 @@
 import { signIn, signOut, useSession } from "next-auth/client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
-import { useContext } from "react";
-import SocketContext from "contexts/SocketContext";
 import generateRandPlan from "functions/generateRandPlan";
 import toast from "react-hot-toast";
+import { useAppSelector } from "redux/hooks";
+import {
+  selectSocket,
+  selectSocketIsConnected,
+} from "redux/slices/socketSlice";
 
 // Taken from merakiui
 export default function Navbar() {
-  const { socket, isConnected } = useContext(SocketContext);
+  const socket = useAppSelector(selectSocket);
+  const isConnected = useAppSelector(selectSocketIsConnected);
 
   const [session] = useSession();
 

@@ -1,38 +1,36 @@
 import PlanTable from "@components/PlanTable";
-import SocketContext from "contexts/SocketContext";
 import Head from "next/head";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { Plan } from "@prisma/client";
 import { useRouter } from "next/dist/client/router";
 import { useSession } from "next-auth/client";
 import Layout from "@components/Layout";
-import PlanContext from "contexts/PlanContext";
+import { useAppDispatch, useAppSelector } from "redux/hooks";
+import { selectSocket } from "redux/slices/socketSlice";
+import {
+  addPlan,
+  removePlan,
+  setCurrentPlans,
+  updatePlan,
+} from "redux/slices/plansSlice";
 
 export const ATC = (): JSX.Element => {
-  const { socket } = useContext(SocketContext);
-  const { plans, setPlans } = useContext(PlanContext);
+  const socket = useAppSelector(selectSocket);
+  const dispatch = useAppDispatch();
 
   const router = useRouter();
   const [session, loading] = useSession();
 
   useEffect(() => {
     if (session) {
-      socket.emit("getCurrentPlans", setPlans);
-      socket.on("newPlan", (plan: Plan) =>
-        setPlans((prev) => {
-          return [...prev, plan];
-        })
+      socket.emit("getCurrentPlans", (plans: Plan[]) =>
+        dispatch(setCurrentPlans(plans))
       );
+      socket.on("newPlan", (plan: Plan) => dispatch(addPlan(plan)));
       socket.on("changedPlan", (id: Plan["id"], changes: Partial<Plan>) => {
-        setPlans((prev) => {
-          const idx = prev.findIndex((plan) => plan.id === id);
-          prev[idx] = { ...prev[idx], ...changes };
-          return [...prev];
-        });
+        dispatch(updatePlan({ id, changes }));
       });
-      socket.on("planDeleted", (id: number) =>
-        setPlans((prev) => prev.filter((val) => val.id !== id))
-      );
+      socket.on("planDeleted", (id: Plan["id"]) => dispatch(removePlan(id)));
     }
 
     return () => {
@@ -41,7 +39,7 @@ export const ATC = (): JSX.Element => {
       socket.off("planDeleted");
       socket.off("changedPlan");
     };
-  }, [session, setPlans, socket]);
+  }, [dispatch, session, socket]);
 
   if (loading) return <></>;
 
@@ -60,7 +58,7 @@ export const ATC = (): JSX.Element => {
         <div className="flex flex-col">
           <div className="m-4 min-w-max max-w-4xl">
             <div className="bg-gray-600 p-4 rounded relative">
-              <PlanTable plans={plans} />
+              <PlanTable />
             </div>
           </div>
         </div>

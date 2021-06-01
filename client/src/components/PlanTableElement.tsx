@@ -1,14 +1,16 @@
-import { useContext } from "react";
-
 import PlanTableSubElement from "./PlanTableSubElement";
 
 import { Plan } from "@prisma/client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import SocketContext from "contexts/SocketContext";
 import { Form, Formik } from "formik";
 import planSchema from "@lib/schemas/planSchema";
 import deepDiffMapper from "functions/deepDiffMapper";
 import toast from "react-hot-toast";
+import { useAppSelector } from "redux/hooks";
+import {
+  selectSocket,
+  selectSocketIsConnected,
+} from "redux/slices/socketSlice";
 
 interface Props {
   first: boolean;
@@ -16,7 +18,8 @@ interface Props {
 }
 
 export default function PlanTableElement({ plan, first }: Props) {
-  const { socket, isConnected } = useContext(SocketContext);
+  const socket = useAppSelector(selectSocket);
+  const isConnected = useAppSelector(selectSocketIsConnected);
 
   return (
     <div

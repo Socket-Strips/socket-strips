@@ -1,11 +1,10 @@
+import { useAppSelector } from "redux/hooks";
+import { selectPlans } from "redux/slices/plansSlice";
 import PlanTableElement from "./PlanTableElement";
-import { Plan } from "@prisma/client";
 
-interface Props {
-  plans: Plan[];
-}
+export default function PlanTable() {
+  const plans = useAppSelector(selectPlans);
 
-export default function PlanTable({ plans }: Props) {
   return (
     <div className="bg-gray-500 rounded-md shadow-inner p-3">
       {plans.map((plan, idx) => (
