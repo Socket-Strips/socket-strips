@@ -8,6 +8,7 @@ import { useAppSelector } from "redux/hooks";
 import { selectSocketIsConnected } from "redux/slices/socketSlice";
 import { useContext } from "react";
 import SocketContext from "contexts/socketContext";
+import NavButton from "./navButton";
 
 // Taken from merakiui
 export default function Navbar() {
@@ -49,53 +50,41 @@ export default function Navbar() {
           <div className="flex-1 md:flex md:items-center md:justify-between text-sm">
             <div className="flex flex-col -mx-4 md:flex-row md:items-center md:mx-8">
               {session && isConnected && (
-                <button
-                  className="inline-flex px-2 py-1 mx-2 mt-2 font-medium transition-colors duration-200 transform rounded-md md:mt-0 text-gray-200 hover:bg-gray-700"
+                <NavButton
                   onClick={() => {
                     const plan = generateRandPlan();
                     isConnected &&
                       socket.emit("filePlan", plan) &&
                       toast.success("Plan filed!");
                   }}
-                >
-                  File Plan
-                  <FontAwesomeIcon
-                    className="ml-2"
-                    width={18}
-                    icon="paper-plane"
-                  />
-                </button>
+                  text="File Plan"
+                  iconName="paper-plane"
+                />
               )}
 
               {session &&
                 isConnected &&
                 process &&
                 process.env.NODE_ENV === "development" && (
-                  <button
-                    className="inline-flex px-2 py-1 mx-2 mt-2 font-medium transition-colors duration-200 transform rounded-md md:mt-0 text-gray-200 hover:bg-gray-700"
+                  <NavButton
                     onClick={() =>
                       isConnected &&
                       socket.emit("ping") &&
                       toast("Sent a ping!", { icon: "👏" })
                     }
-                  >
-                    Ping
-                    <FontAwesomeIcon
-                      className="ml-2"
-                      width={18}
-                      icon="table-tennis"
-                    />
-                  </button>
+                    text="Ping"
+                    iconName="table-tennis"
+                  />
                 )}
 
               <a
                 href="#"
-                className="inline-flex px-2 py-1 mx-2 mt-2 font-medium transition-colors duration-200 transform rounded-md md:mt-0 text-gray-200 hover:bg-gray-700"
+                className="inline-flex items-center px-2 py-1 mx-2 mt-2 font-medium transition-colors duration-200 transform rounded-md md:mt-0 text-gray-200 hover:bg-gray-700"
               >
                 Random Item
               </a>
               <Link href="/contact" passHref>
-                <a className="inline-flex px-2 py-1 mx-2 mt-2 font-medium transition-colors duration-200 transform rounded-md md:mt-0 text-gray-200 hover:bg-gray-700">
+                <a className="inline-flex items-center px-2 py-1 mx-2 mt-2 font-medium transition-colors duration-200 transform rounded-md md:mt-0 text-gray-200 hover:bg-gray-700">
                   Contact Us
                   <FontAwesomeIcon
                     className="ml-2"
