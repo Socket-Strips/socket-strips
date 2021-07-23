@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE "plans" ALTER COLUMN "squawk" SET DATA TYPE TEXT,
-ALTER COLUMN "departure_hdg" SET DATA TYPE TEXT;
