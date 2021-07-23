@@ -1,10 +1,10 @@
 # Deploy
 
-## Heroku and Vercel
-
 ### Discord
 
 * Remember to set the OAauth2 redirect, e.g. `http://localhost:3000/api/auth/callback/discord`
+
+## Heroku and Vercel
 
 ### Heroku Server and DB
 
@@ -34,9 +34,11 @@
 
 ## Locally
 
+* Install deps in top folder (`yarn`).
+
 ### Local Server and DB
 
-* Rename `.env.development.local` to `.env` in top folder (The one that has this README) and set the variables.
+* Install deps in server folder (`yarn`).
 
 * Rename `.env.development.local` to `.env` in server folder and set the variables.
 
@@ -44,14 +46,20 @@
 
   * ```docker run --name some-postgres -e POSTGRES_PASSWORD=12345 -d -p 5432:5432 postgres```
 
-* Run `npx prisma generate` and `npx prisma migrate dev` if you ever make changes to the schema.
+* Run `npx prisma generate`.
 
-* Run `npx prisma migrate deploy` in production, [see more](https://www.prisma.io/docs/concepts/components/prisma-migrate#production-and-testing-environments).
+* Run `npx prisma migrate dev` in **one** folder if you ever make changes to the schema.
 
-* Run `yarn server`
+  * Run `npx prisma migrate deploy` **in production**, [see more](https://www.prisma.io/docs/concepts/components/prisma-migrate#production-and-testing-environments).
+
+* Run `yarn server`.
 
 ### Local Client
 
+* Install deps in client folder (`yarn`).
+
 * Rename `..env.local` to `.env.local` in client folder and set the variables.
 
-* Run `yarn client`
+* Run `npx prisma generate`.
+
+* Run `yarn client`.

@@ -1,3 +1,9 @@
 [submodule "prisma"]
 	path = prisma
 	url = https://github.com/Socket-Strips/prisma.git
+[submodule "client"]
+	path = client
+	url = https://github.com/Socket-Strips/client.git
+[submodule "server"]
+	path = server
+	url = https://github.com/Socket-Strips/server.git
