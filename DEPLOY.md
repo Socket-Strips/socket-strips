@@ -16,7 +16,7 @@
 
 * Set `CORS_ORIGIN` to the URL of the Vercel deployment, you can usually guess this using `{repo-name}.vercel.app` if `repo-name` is unique.
 
-* Connect the `server` repo to Heroku and deploy main branch, Procfile should take care of the rest.
+* [Set the heroku remote](https://devcenter.heroku.com/articles/git#for-an-existing-heroku-app) (you need the cli) and [push](https://devcenter.heroku.com/articles/git#deploying-code). You need to do this for the [submodules](https://devcenter.heroku.com/articles/git-submodules) to work. Procfile should take care of the rest.
 
 ### Vercel Client
 
@@ -32,9 +32,7 @@
 
 * Set `Build & Development Settings` as follows:
 
-  * Build: `mv ../prisma . && npx prisma generate && next build`
-
-  * Install: `yarn && yarn add @prisma/client prisma typescript`
+  * Build: `npx prisma generate --schema=./prisma/schema.prisma && next build`
 
 <br />
 

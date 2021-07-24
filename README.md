@@ -1,6 +1,9 @@
 # Socket Strips
 
-WIP
+## STILL A WORK-IN-PROGRESS
+
+![Demo1](./client/demo/1.png)
+![Demo2](./client/demo/2.png)
 
 ## Features
 
