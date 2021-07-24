@@ -1,10 +1,14 @@
 # Deploy
 
-### Discord
+**Whether you deploy locally or not, make sure to check out the *Additional Details* section at the bottom of this page.**
 
-* Remember to set the OAauth2 redirect, e.g. `http://localhost:3000/api/auth/callback/discord`
+<br />
 
 ## Heroku and Vercel
+
+* Fork the [`prisma`](https://github.com/Socket-Strips/prisma), [`server`](https://github.com/Socket-Strips/server) and [`client`](https://github.com/Socket-Strips/client) submodules.
+
+  * Update the `prisma` submodule in `server` and `client` to your own one.
 
 ### Heroku Server and DB
 
@@ -12,7 +16,7 @@
 
 * Set `CORS_ORIGIN` to the URL of the Vercel deployment, you can usually guess this using `{repo-name}.vercel.app` if `repo-name` is unique.
 
-* Connect repo to Heroku and deploy main branch, Procfile should take care of the rest.
+* Connect the `server` repo to Heroku and deploy main branch, Procfile should take care of the rest.
 
 ### Vercel Client
 
@@ -32,7 +36,11 @@
 
   * Install: `yarn && yarn add @prisma/client prisma typescript`
 
+<br />
+
 ## Locally
+
+* Clone this repo using `git clone --recurse-submodules` (to also clone submodules).
 
 * Install deps in top folder (`yarn`).
 
@@ -63,3 +71,15 @@
 * Run `npx prisma generate`.
 
 * Run `yarn client`.
+
+<br />
+
+## Additional Details
+
+### Git Submodules
+
+This project uses *Git Submodules*; If you plan on changing anything, especially contributing, I ***highly*** advise you to [read up on the basics](https://gist.github.com/gitaarik/8735255).
+
+### Discord
+
+* Remember to set the OAauth2 redirect, e.g. `http://localhost:3000/api/auth/callback/discord`
